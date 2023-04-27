@@ -11,7 +11,7 @@ namespace prog {
 
     }
     rgb_value Color::red() const {
-        return red_;
+        return 0;
     }
     rgb_value Color::green() const {
         return 0;
