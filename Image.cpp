@@ -9,6 +9,8 @@ namespace prog
     std::vector<std::vector <Color>> pixel_matrix(height_, std::vector<Color>(width_));
     // Lines of the matrix represent the height of the image
     // while the columns repesent the width
+
+    // See if y matches the height or width (Lines / Columns)
   }
   Image::~Image()
   {
