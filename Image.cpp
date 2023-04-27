@@ -1,9 +1,14 @@
 #include "Image.hpp"
+#include <vector>
 
 namespace prog
 {
-  Image::Image(int w, int h, const Color &fill)
-  {
+  Image::Image(int w, int h, const Color &fill){
+    height_ = h;
+    width_ = w;
+    std::vector<std::vector <Color>> pixel_matrix(height_, std::vector<Color>(width_));
+    // Lines of the matrix represent the height of the image
+    // while the columns repesent the width
   }
   Image::~Image()
   {
