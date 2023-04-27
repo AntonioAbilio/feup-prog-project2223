@@ -17,5 +17,11 @@ jobs:
     - name: Install dependencies
       run: make
       
-    - name: test
-      run: ./test
+    - name: Test Colors
+      run: ./test Color
+      
+    - name: Basic Image I/O Tests
+      run: ./test basic
+      
+    - name: Test all scripts related to command x, where x is the command name
+      run: ./test x
