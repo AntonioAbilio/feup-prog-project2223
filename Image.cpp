@@ -16,7 +16,7 @@ namespace prog
     }
 
     //std::vector<std::vector<Color>> pixel_matrix(height_, std::vector<Color>(width_));  // OUTDATED - vanessa
-    // See if y matches the height or width (Lines / Columns)   - antonio
+    // See if y matches the height or width (Lines / Columns)   - antonio.
   }
 
   Image::~Image()
