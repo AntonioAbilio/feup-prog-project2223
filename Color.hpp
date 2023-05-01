@@ -9,13 +9,14 @@ namespace prog
     private:
       rgb_value red_;
       rgb_value green_;
-      rgb_value blue_;
+      rgb_value blue_; 
     public:
       Color();
       Color(const Color& c);
       Color(rgb_value r, rgb_value g, rgb_value b);
-      rgb_value red() const;
-      rgb_value& red();
+      static const Color White(); // <- static method
+      rgb_value red() const;      // this means that we can access the color white
+      rgb_value& red();           // using the class directly, without creating an object - Antonio.
       rgb_value green() const;
       rgb_value& green();
       rgb_value blue() const;

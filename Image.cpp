@@ -2,7 +2,7 @@
 #include <vector>
 
 namespace prog
-{                                             // TODO: add white as default value !!! 
+{ // TODO: white default -> Defined in Color.hpp - Antonio.
   Image::Image(int w, int h, const Color &fill){
     width_ = w;
     height_ = h;

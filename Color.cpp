@@ -37,6 +37,10 @@ namespace prog {
         return blue_;
     }
 
+    const Color Color::White() {
+        return Color(255, 255, 255);
+    }
+
 /* 
     // TODO: remove this DUMMY variable once you have appropriate fields for representing colors.
     rgb_value DUMMY_rgb_value = 0; 
