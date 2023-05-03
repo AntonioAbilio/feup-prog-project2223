@@ -1,7 +1,7 @@
 #ifndef __prog_Image_hpp__
 #define __prog_Image_hpp__
 #include "Color.hpp"
-#include <vector> // added - Vanessa
+#include <vector> 
 
 namespace prog
 {
@@ -13,7 +13,7 @@ namespace prog
     // There may be something missing - Antonio. 
     std::vector<std::vector<Color>> pixel_matrix_; // added - Vanessa
   public:
-    Image(int w, int h, const Color &fill = Color::White());
+    Image(int w, int h, const Color &fill = {255, 255, 255}); // = Color::White()); -> Not necessary - Vanessa
     ~Image();
     int width() const;
     int height() const;

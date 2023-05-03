@@ -38,7 +38,7 @@ namespace prog {
     }
 
     const Color Color::White() {
-        return Color(255, 255, 255);
+        return Color(255, 255, 255);            // Not sure if necessary - Vanessa
     }
 
 /* 

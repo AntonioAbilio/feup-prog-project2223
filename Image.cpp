@@ -15,7 +15,6 @@ namespace prog
       }
     }
 
-    //std::vector<std::vector<Color>> pixel_matrix(height_, std::vector<Color>(width_));  // OUTDATED - vanessa
     // See if y matches the height or width (Lines / Columns)   - antonio.
   }
 
@@ -37,7 +36,7 @@ namespace prog
   // TODO: remove this DUMMY_color variable once you have appropriate fields for representing image pixels.
   //Color DUMMY_color;
 
-  Color& Image::at(int x, int y)
+  Color& Image::at(int x, int y)      // Pixel at (x, y) can be altered
   {
     // return DUMMY_color;
     return pixel_matrix_[y][x];
