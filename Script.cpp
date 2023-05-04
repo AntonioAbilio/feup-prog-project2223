@@ -54,7 +54,7 @@ namespace prog {
             // TODO
             // Script commands for simple image manipulations (image dimensions are not altered).
             if (command == "invert") {
-                // 1 - call to invert()                 // MISSING - Vanessa
+                invert();
                 continue;
             }
             if (command == "to_gray_scale") {
@@ -134,7 +134,7 @@ namespace prog {
                 b = 255 - b;
             }
         }
-    }   // THIS FUNCTION IS NOT WORKING PROPERLY - Vanessa
+    }   // THIS FUNCTION IS WORKING :))))))
 
 
 }
