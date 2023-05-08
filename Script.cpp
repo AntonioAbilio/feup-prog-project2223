@@ -53,46 +53,50 @@ namespace prog {
 
             // TODO
             // Script commands for simple image manipulations (image dimensions are not altered).
-            if (command == "invert") {
-                invert();
+            if (command == "invert") {              // invert
+                Script::invert();                               
                 continue;
             }
             if (command == "to_gray_scale") {
-                // 2 - call to to_gray_scale()          // MISSING - Vanessa
+                // 2 - call to to_gray_scale()      // MISSING - Vanessa
                 continue;
             }
             if (command == "replace"){
-                // 3 - call to replace()                // MISSING - Vanessa
+                // 3 - call to replace()            // MISSING - Vanessa
                 continue;
             }
-            if (command == "fill"){
-                // 4 - call to fill()                   // MISSING - Vanessa
+            if (command == "fill"){                 // fill  
+                int x, y, w, h;
+                input >> x >> y >> w >> h;
+                Color c;
+                input >> c;
+                Script::fill(x, y, w, h, c.red(), c.green(), c.blue());     
                 continue;
             }
             if (command == "h_mirror"){
-                // 5 - call to h_mirror()               // MISSING - Vanessa
+                // 5 - call to h_mirror()           // MISSING - Vanessa
                 continue;
             }
             if (command == "v_mirror"){
-                // 6 - call to v_mirror()               // MISSING - Vanessa
+                // 6 - call to v_mirror()           // MISSING - Vanessa
                 continue;
             }
             if (command == "add"){
-                // 7 - call to add()                    // MISSING - Vanessa
+                // 7 - call to add()                // MISSING - Vanessa
                 continue;
             }
 
             // Script commands for dimension-changing operations.
             if (command == "crop"){
-                // 8 - call to crop()                   // MISSING - Vanessa
+                // 8 - call to crop()               // MISSING - Vanessa
                 continue;
             }
             if (command == "rotate_left"){
-                // 9 - call to rotate_left()            // MISSING - Vanessa
+                // 9 - call to rotate_left()        // MISSING - Vanessa
                 continue;
             }
             if (command == "rotate_right"){
-                // 10 - call to rotate_right()          // MISSING - Vanessa
+                // 10 - call to rotate_right()      // MISSING - Vanessa
                 continue;
             }
 
@@ -121,7 +125,7 @@ namespace prog {
     }
 
 
-    // 1 
+    // invert
     void Script::invert() {     // Invert colors of current image.
         for (int y = 0; y < image->height(); y++){    // y - line (0 <= y < height_)
             for (int x = 0; x < image->width(); x++){   // x - column (0 <= x < width_)
@@ -134,7 +138,20 @@ namespace prog {
                 b = 255 - b;
             }
         }
-    }   // THIS FUNCTION IS WORKING :))))))
+    }   
+
+
+    // fill
+    void Script::fill(int x, int y, int w, int h, rgb_value r, rgb_value g, rgb_value b){
+        for (int yi = y; yi < y + h; yi++){
+            for (int xi = x; xi < x + w; xi++){
+                Color& current_pixel = image->at(xi, yi);
+                current_pixel = Color(r, g, b);
+            }
+        }
+    }
+
+
 
 
 }
