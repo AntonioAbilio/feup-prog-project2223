@@ -91,8 +91,8 @@ namespace prog {
                 // 8 - call to crop()               // MISSING - Vanessa
                 continue;
             }
-            if (command == "rotate_left"){
-                // 9 - call to rotate_left()        // MISSING - Vanessa
+            if (command == "rotate_left"){          // rotate_left
+                Script::rotate_left();
                 continue;
             }
             if (command == "rotate_right"){
@@ -163,5 +163,21 @@ namespace prog {
             }
         }
     }
+
+
+    // rotate_left
+    void Script::rotate_left(){
+        Image* image_rot = new Image(image->height(), image->width());
+        for (int y = 0; y < image->height(); y++){
+            for (int x = 0; x < image->width(); x++){
+                Color& current_pixel = image->at(x, y);
+                Color& rot_pixel = image_rot->at(y, image->width() - x - 1);
+                rot_pixel = current_pixel;
+            }
+        }
+        *image = *image_rot;
+        delete image_rot;
+    }   // This function fails 3 tests, which require rotate_right() to work properly.
+
 
 }
