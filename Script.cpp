@@ -58,7 +58,7 @@ namespace prog {
                 continue;
             }
             if (command == "to_gray_scale") {
-                Script::to_gray_scale();      // MISSING - Vanessa
+                Script::to_gray_scale();      // to_gray_scale
                 continue;
             }
             if (command == "replace"){
@@ -96,7 +96,7 @@ namespace prog {
                 continue;
             }
             if (command == "rotate_right"){
-                // 10 - call to rotate_right()      // MISSING - Vanessa
+                Script::rotate_right();      // rotate_right
                 continue;
             }
 
@@ -177,8 +177,9 @@ namespace prog {
         }
         *image = *image_rot;
         delete image_rot;
-    }   // This function fails 3 tests, which require rotate_right() to work properly.
+    }
 
+    // to_gray_scale
     void Script::to_gray_scale(){
         for (int y = 0; y < image->height(); y++){
             for (int x = 0; x < image->width(); x++){
@@ -191,5 +192,18 @@ namespace prog {
         }
     }
 
+    // rotate_right
+    void Script::rotate_right(){
+        Image* rot_img = new Image(image->height(), image->width());
+        for (int y = 0; y < image->height(); y++){
+            for (int x = 0; x < image->width(); x++){
+                Color& orgC = image->at(x, y);
+                Color& rotC = rot_img->at(image->height() - y - 1, x);
+                rotC = orgC;
+            }
+        }
+        *image = *rot_img;
+        delete rot_img;
+    }
 
 }

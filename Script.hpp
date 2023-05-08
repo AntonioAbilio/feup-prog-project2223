@@ -30,6 +30,7 @@ namespace prog
     void h_mirror();  // h_mirror
     void rotate_left(); // rotate_left
     void to_gray_scale(); // to_gray_scale
+    void rotate_right(); // rotate_right
   };
 }
 #endif
