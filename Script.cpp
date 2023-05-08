@@ -73,8 +73,8 @@ namespace prog {
                 Script::fill(x, y, w, h, c.red(), c.green(), c.blue());     
                 continue;
             }
-            if (command == "h_mirror"){
-                // 5 - call to h_mirror()           // MISSING - Vanessa
+            if (command == "h_mirror"){             // h_mirror
+                Script::h_mirror();           
                 continue;
             }
             if (command == "v_mirror"){
@@ -151,7 +151,17 @@ namespace prog {
         }
     }
 
-
-
+    // h_mirror
+    void Script::h_mirror(){
+        for (int y = 0; y < image->height(); y++){
+            for (int x = 0; x < image->width()/2; x++){
+                Color& current_pixel = image->at(x, y);
+                Color& mirror_pixel = image->at(image->width() - x - 1, y);
+                Color temp = current_pixel;
+                current_pixel = mirror_pixel;
+                mirror_pixel = temp;
+            }
+        }
+    }
 
 }

@@ -25,8 +25,9 @@ namespace prog
     void blank();
     void save();
 
-    void invert(); // invert
+    void invert();   // invert
     void fill(int x, int y, int w, int h, rgb_value r, rgb_value g, rgb_value b);  // fill
+    void h_mirror();  // h_mirror
   };
 }
 #endif
