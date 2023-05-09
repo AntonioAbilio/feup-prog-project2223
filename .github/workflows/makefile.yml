@@ -28,3 +28,6 @@ jobs:
     
     - name: Test add functionality.
       run: ./test add
+    
+    - name: Show logs.
+      run: cat ./test_log.txt
