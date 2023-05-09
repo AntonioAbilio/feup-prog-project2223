@@ -82,7 +82,26 @@ namespace prog {
                 continue;
             }
             if (command == "add"){
-                // 7 - call to add()                // MISSING - Vanessa
+                string file;
+                input >> file;
+
+                int red;
+                input >> red;
+                
+                int green;
+                input >> green;
+
+                int blue;
+                input >> blue;
+
+                int wx;
+                input >> wx;
+
+                int wy;
+                input >> wy;
+                Image* altimage = loadFromPNG(file);
+                //cout << file << "\n" ;
+                Script::add(altimage, red, green, blue, wx, wy);                // add
                 continue;
             }
 
@@ -204,6 +223,36 @@ namespace prog {
         }
         *image = *rot_img;
         delete rot_img;
+    }
+
+    // add
+    void Script::add(Image* altimg, rgb_value r, rgb_value g, rgb_value b, int x, int y){
+        int tx = x;
+        int ty = y;
+        for(int ay = 0; ay < altimg->height(); ay++){
+            for (int ax = 0; ax < altimg->width(); ax++){
+                Color& altC = altimg->at(ax, ay);
+                Color& C = image->at(tx, ty);
+                tx++;
+                if (altC.red() == r){
+                    if (altC.green() == g){
+                        if (altC.blue() == b){
+                            continue;
+                        } else {
+                            C = altC;
+                        }
+                    } else {
+                        C = altC;
+                    }
+                } else {
+                    C = altC;
+                }
+            }
+            tx = x;
+            ty++;
+
+        }
+
     }
 
 }

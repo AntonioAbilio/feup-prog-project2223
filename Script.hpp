@@ -31,6 +31,7 @@ namespace prog
     void rotate_left(); // rotate_left
     void to_gray_scale(); // to_gray_scale
     void rotate_right(); // rotate_right
+    void add(Image* altimg, rgb_value r, rgb_value g, rgb_value b, int x, int y); // add
   };
 }
 #endif
