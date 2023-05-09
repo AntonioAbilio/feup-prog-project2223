@@ -252,7 +252,7 @@ namespace prog {
             ty++;
 
         }
-
+    delete altimg;
     }
 
 }
