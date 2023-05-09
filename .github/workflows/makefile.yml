@@ -25,3 +25,9 @@ jobs:
       
     - name: Test all scripts related to command x, where x is the command name
       run: ./test x
+    
+    - name: Test add functionality.
+      run: ./test add
+    
+    - name: Show logs.
+      run: cat ./test_log.txt
