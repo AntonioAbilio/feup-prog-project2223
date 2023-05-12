@@ -32,6 +32,7 @@ namespace prog
     void to_gray_scale(); // to_gray_scale
     void rotate_right(); // rotate_right
     void add(Image* altimg, rgb_value r, rgb_value g, rgb_value b, int x, int y); // add
+    void median_filter(int ws); // median_filter
   };
 }
 #endif

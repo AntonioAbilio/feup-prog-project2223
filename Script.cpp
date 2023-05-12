@@ -3,6 +3,8 @@
 #include "Script.hpp"
 #include "PNG.hpp"
 #include "XPM2.hpp"
+#include <cmath>
+#include <algorithm>
 
 using namespace std;
 
@@ -116,6 +118,13 @@ namespace prog {
             }
             if (command == "rotate_right"){
                 Script::rotate_right();      // rotate_right
+                continue;
+            }
+
+            if (command == "median_filter"){
+                int ws = 0;
+                input >> ws;
+                Script::median_filter(ws);     // median_filter
                 continue;
             }
 
@@ -254,5 +263,30 @@ namespace prog {
         }
     delete altimg;
     }
+
+
+    // median_filter
+    void Script::median_filter(int ws){
+/*         if (ws % 2 == 0) return;        // ws can't be even
+        vector<Color> window(ws * ws);   // range of each pixel (size ws * ws)
+        int edge_x = floor(ws/2);  
+        int edge_y = edge_x;
+        for (int x = edge_x; x < image->width() - edge_x; x++){
+            for (int y = edge_y; y < image->height() - edge_y; y++){
+                int i = 0;
+                for (size_t fx = 0; fx < window.size(); fx++){
+                    for (size_t fy = 0; fy < window.size(); fy++){
+                        window[i] = image->at(x + fx - edge_x, y + fy - edge_y);
+                        i++;
+                    }
+                }
+                sort(window.begin(), window.end());
+                image->at(x, y) = window[window.size() * window.size() / 2];
+            }
+        } */
+    }   // UNFINISHED - Vanessa.
+
+
+
 
 }
