@@ -128,6 +128,12 @@ namespace prog {
                 continue;
             }
 
+            if (command == "xpm2_open"){
+                string filename;
+                input >> filename;
+                image = loadFromXPM2(filename);
+            }
+
         }
     }
     void Script::open() {
