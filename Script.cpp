@@ -266,25 +266,50 @@ namespace prog {
 
 
     // median_filter
-    void Script::median_filter(int ws){
-/*         if (ws % 2 == 0) return;        // ws can't be even
-        vector<Color> window(ws * ws);   // range of each pixel (size ws * ws)
-        int edge_x = floor(ws/2);  
-        int edge_y = edge_x;
-        for (int x = edge_x; x < image->width() - edge_x; x++){
-            for (int y = edge_y; y < image->height() - edge_y; y++){
-                int i = 0;
-                for (size_t fx = 0; fx < window.size(); fx++){
-                    for (size_t fy = 0; fy < window.size(); fy++){
-                        window[i] = image->at(x + fx - edge_x, y + fy - edge_y);
-                        i++;
-                    }
-                }
-                sort(window.begin(), window.end());
-                image->at(x, y) = window[window.size() * window.size() / 2];
+
+    bool compare(const rgb_value& a, const rgb_value& b){     // auxiliary function
+        return (a < b);
+    }   
+
+    rgb_value median(vector<rgb_value> window){     // auxiliary function
+        sort(window.begin(), window.end(), compare);    
+        int size = window.size();                       
+        if (size % 2 == 0) return (window[size/2 - 1] + window[size/2]) / 2;  // window has even size
+        else return window[size/2];                                           // window has odd size
+    }
+
+    Color median_calc(const int& x, const int& y, const int& ws, const Image& img_copy){         // auxiliary function
+        vector<rgb_value> window_r;    // vector of red values of pixels in neighbourhood
+        vector<rgb_value> window_g;    // vector of green values of pixels in neighbourhood
+        vector<rgb_value> window_b;    // vector of blue values of pixels in neighbourhood
+
+        for (int nx = max(0, x - ws / 2); nx <= min(img_copy.width() - 1, x + ws / 2); nx++){
+            for (int ny = max(0, y - ws / 2); ny <= min(img_copy.height() - 1, y + ws / 2); ny++){
+                window_r.push_back(img_copy.at(nx, ny).red());
+                window_g.push_back(img_copy.at(nx, ny).green());
+                window_b.push_back(img_copy.at(nx, ny).blue());
             }
-        } */
-    }   // UNFINISHED - Vanessa.
+        }
+
+        if (window_r.empty()) return img_copy.at(x, y);     // if the neighbourhood is empty, return the pixel itself
+
+        rgb_value mr = median(window_r);
+        rgb_value mg = median(window_g);
+        rgb_value mb = median(window_b);
+        return {mr, mg, mb};        // return median of each window separately
+    }
+
+    void Script::median_filter(int ws){
+        if (ws % 2 == 0 || ws < 3) return;        // ws can't be even or less than 3
+        Image img_copy = *image;                  // the original image will be altered, so we need a copy
+        for (int y = 0; y < image->height(); y++){
+            for (int x = 0; x < image->width(); x++){
+                image->at(x, y) = median_calc(x, y, ws, img_copy);      // calculates median value for each pixel and applies to image
+            }
+        }
+    
+    }
+
 
 
 
