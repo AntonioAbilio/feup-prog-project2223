@@ -26,9 +26,17 @@ using namespace std;
 
 namespace prog {
 
-    /* Color hex_to_rgb(string r_hex, string g_hex, string b_hex){
+    Color hex_to_rgb(string r_hex, string g_hex, string b_hex){
+        map<string, int> hex_int = {{"0",0},{"1",1},{"2",2},{"3",3},{"4",4},{"5",5},
+            {"6",6},{"7",7},{"8",8},{"9",9},{"A",10},{"B",11},
+            {"C",12},{"D",13},{"E",14},{"F",15}};
 
-    } */
+        rgb_value red = hex_int[r_hex.substr(0,1)] * 16 + hex_int[r_hex.substr(1,1)];
+        rgb_value green = hex_int[g_hex.substr(0,1)] * 16 + hex_int[g_hex.substr(1,1)];
+        rgb_value blue = hex_int[b_hex.substr(0,1)] * 16 + hex_int[b_hex.substr(1,1)];
+        Color result(red, green, blue);
+        return result;
+    }
 
     Image* loadFromXPM2(const std::string& file) {
         
@@ -61,8 +69,8 @@ namespace prog {
             istringstream prc(colr);
             prc >> color_char >> hex_color >> hex_color; // 2x hex_color because we know that c is const, it can be ignored;
             hex_color = hex_color.substr(1, 6);
-            //temp = hex_to_rgb(hex_color.substr(0,2), hex_color.substr(2,2), hex_color.substr(4,2));
-            
+            temp = hex_to_rgb(hex_color.substr(0,2), hex_color.substr(2,2), hex_color.substr(4,2));
+            color_map[color_char] = temp;
           // UNFINISHED :(  
         }
         return img;
