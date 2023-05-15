@@ -7,7 +7,7 @@
 #include <algorithm>
 
 using namespace std;
-
+    //hi
 namespace prog {
     // Use to read color values from a script file.
     istream& operator>>(istream& input, Color& c) {
