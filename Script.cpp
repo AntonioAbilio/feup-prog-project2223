@@ -65,7 +65,9 @@ namespace prog {
             }
             if (command == "replace"){
                 // 3 - call to replace()            // MISSING - Joyce
+                Script:: replace();
                 continue;
+
             }
             if (command == "fill"){                 // fill  
                 int x, y, w, h;
@@ -242,6 +244,20 @@ namespace prog {
 
     //replace
     void Script::replace(){
+        int r1, g1, b1, r2, g2, b2;
+        input >> r1>> g1>> b1>> r2>> g2>> b2;
+        for (int y = 0; y < image->height(); y++){
+            for (int x = 0; x < image->width(); x++){
+                Color& pixel= image->at(x, y);
+                if(pixel.red()== r1 && pixel.green()==g1 && pixel.blue()==b1){
+                    pixel.red()= r2;
+                    pixel.green()=g2;
+                    pixel.blue()=b2;
+                }
+
+            }
+        }
+        
 
     }
 
