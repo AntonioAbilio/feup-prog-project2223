@@ -60,7 +60,7 @@ namespace prog {
         while (getline(in, line)){
             for(size_t char_wd = 0; char_wd < line.size(); char_wd++){
 
-                if ((char_wd >= img->width())||(line_hw >= img->height())) break; // Some XPM2 files contained way too many characters per line
+                if (((int)char_wd >= img->width())||(line_hw >= img->height())) break; // Some XPM2 files contained way too many characters per line
                 Color& replace = img->at(char_wd, line_hw); // Get the current pixel.
                 replace = color_map[line[char_wd]]; // Replace the pixel with the color that the map returned.
 
