@@ -64,7 +64,7 @@ namespace prog {
                 continue;
             }
             if (command == "replace"){
-                // 3 - call to replace()            // MISSING - Vanessa
+                // 3 - call to replace()            // MISSING - Joyce
                 continue;
             }
             if (command == "fill"){                 // fill  
@@ -80,7 +80,8 @@ namespace prog {
                 continue;
             }
             if (command == "v_mirror"){
-                // 6 - call to v_mirror()           // MISSING - Vanessa
+                // 6 - call to v_mirror()           // MISSING - Joyce
+                Script::v_mirror();
                 continue;
             }
             if (command == "add"){
@@ -109,7 +110,7 @@ namespace prog {
 
             // Script commands for dimension-changing operations.
             if (command == "crop"){
-                // 8 - call to crop()               // MISSING - Vanessa
+                // 8 - call to crop()               // MISSING - Joyce
                 continue;
             }
             if (command == "rotate_left"){          // rotate_left
@@ -199,6 +200,19 @@ namespace prog {
     }
 
 
+    // v_mirror
+    void Script::v_mirror(){
+        for (int y = 0; y < image->height()/2; y++){
+            for (int x = 0; x < image->width(); x++){
+                Color& current_pixel = image->at(x, y);
+                Color& mirror_pixel = image->at(x , image->height() - 1 - y);
+                Color temp = current_pixel;
+                current_pixel = mirror_pixel;
+                mirror_pixel = temp;
+            }
+        }
+    }
+
     // rotate_left
     void Script::rotate_left(){
         Image* image_rot = new Image(image->height(), image->width());
@@ -226,6 +240,16 @@ namespace prog {
         }
     }
 
+    //replace
+    void Script::replace(){
+
+    }
+
+
+
+
+
+
     // rotate_right
     void Script::rotate_right(){
         Image* rot_img = new Image(image->height(), image->width());
@@ -238,6 +262,12 @@ namespace prog {
         }
         *image = *rot_img;
         delete rot_img;
+    }
+
+
+    //crop
+    void Script::crop(){
+
     }
 
     // add
