@@ -5,26 +5,52 @@
 #include <map>
 using namespace std;
 
-namespace prog {
+/* 
+    Planning for loadFromXPM2:
 
-    Color hex_to_rgb(const string& r_hex, const string& g_hex, const string& b_hex) {
-    map<char, int> hex_int = {
-        {'0', 0}, {'1', 1}, {'2', 2}, {'3', 3}, {'4', 4}, {'5', 5}, {'6', 6}, {'7', 7},
-        {'8', 8}, {'9', 9}, {'a', 10}, {'b', 11}, {'c', 12}, {'d', 13}, {'e', 14}, {'f', 15}
-    };
+        First way:
+            Read all colors, store them in a vector or a map and check for every pixel the value inside of the map.
+        Second way:
+            Read one color, apply changes to every character that represents that color and repeat.
+            It looks like the efficiency would be gratly reduced...
+         
+    Checks for loadFromXPM2:
+        cout << file << "\n";
+        cout << " width: " << wh << " height: " << ht << " colors: " << colors << " chrpp: " << chrpp << "\n";
+        cout << "Current color: " << color_char << " Char is set to color: " << hex_color << "\n";
+        cout << " red: " << r_hex << " green: " << g_hex  << " blue: " << b_hex << endl;
 
-    int red = hex_int[r_hex[0]] * 16 + hex_int[r_hex[1]];
-    int green = hex_int[g_hex[0]] * 16 + hex_int[g_hex[1]];
-    int blue = hex_int[b_hex[0]] * 16 + hex_int[b_hex[1]];
-    Color result((rgb_value)red, (rgb_value)green, (rgb_value)blue);
-    return result;
+
+ */
+
+
+namespace prog{
+
+    Color hex_to_rgb(string r_hex, string g_hex, string b_hex){
+        map<string, int> hex_int = {{"0",0},{"1",1},{"2",2},{"3",3},{"4",4},{"5",5},
+            {"6",6},{"7",7},{"8",8},{"9",9},{"A",10},{"B",11},
+            {"C",12},{"D",13},{"E",14},{"F",15}};
+
+        rgb_value red = hex_int[r_hex.substr(0,1)] * 16 + hex_int[r_hex.substr(1,1)];
+        rgb_value green = hex_int[g_hex.substr(0,1)] * 16 + hex_int[g_hex.substr(1,1)];
+        rgb_value blue = hex_int[b_hex.substr(0,1)] * 16 + hex_int[b_hex.substr(1,1)];
+        Color result(red, green, blue);
+        return result;
+    }
 }
+    string rgb_to_hex(Color& C){ // missing Joyce
+        
+    }
+ 
+
 
     Image* loadFromXPM2(const std::string& file) {
+        
         ifstream in;
-        in.open(file); // Open the file using the provided path.
+        
+        in.open(file);
+        string line;
 
-        string line; // Variable to store lines.
         getline(in, line); // Can be used to check if the content belongs to a xpm2 file, ignored.
 
         getline(in, line); // Parameters (Size, Color Count, Chars per pixel).
@@ -34,43 +60,50 @@ namespace prog {
         int colors; // Amount of colors to load.
         int chrpp; // Char per pixel -> const 1.
         iss >> wh >> ht >> colors >> chrpp;
+        Image* img = new Image (wh, ht);
 
-        Image* img = new Image (wh, ht); // Create a new image with the given dimentions.
-    
-        char color_char;  // Variable to store the character that is going to be converted.
-        string hex_color; // Variable to store the hexadecimal value of a given character.
-        map<char, Color> color_map; // Create an empty map to hold the Color value of each character.
+        // First way
+
+        string colr; 
+        string color_char;
+        string hex_color;
+        map<string, Color> color_map;
+        Color temp;
         
         for (int i = 0; i < colors; i++){
-            // The lines that we get inside this for loop have parameters that we need to save to be able
-            // to convert from a character to an actual color.
-            getline(in, line); 
-
-            istringstream clr(line);
-            clr >> color_char >> hex_color >> hex_color; // 2x hex_color -> c is being ignored; -> Issue...
-            hex_color = hex_color.substr(1, 6); // Remove the hastag.
-
-            // Make sure every character is lowercase as
-            // the dictionary used in hex_to_rgb function uses lowercase chars.
-            for (auto& chr: hex_color) chr = tolower(chr);
-            color_map[color_char] = hex_to_rgb(hex_color.substr(0,2), hex_color.substr(2,2), hex_color.substr(4,2));
-        }
-        
-        int line_hw = 0; // We begin at the top of the image.
-        while (getline(in, line)){
-            for(size_t char_wd = 0; char_wd < line.size(); char_wd++){
-
-                if (((int)char_wd >= img->width())||(line_hw >= img->height())) break; // Some XPM2 files contained way too many characters per line
-                Color& replace = img->at(char_wd, line_hw); // Get the current pixel.
-                replace = color_map[line[char_wd]]; // Replace the pixel with the color that the map returned.
-
-            }
-        line_hw++; // Increment the current y position.
+            getline(in, colr); // Line with color.
+            istringstream prc(colr);
+            prc >> color_char >> hex_color >> hex_color; // 2x hex_color because we know that c is const, it can be ignored;
+            hex_color = hex_color.substr(1, 6);
+            temp = hex_to_rgb(hex_color.substr(0,2), hex_color.substr(2,2), hex_color.substr(4,2));
+            color_map[color_char] = temp;
+          // UNFINISHED :(  
         }
         return img;
     }
 
-    void saveToXPM2(const std::string& file, const Image* image) {
+    void saveToXPM2(const std::string& file, const Image* image){ 
+        map<Color,char> char_map;
+        char x ='a';
+        for(int j = 0; j < image->width(); j++ ){
+            for(int i=0; i < image->height(); i++){ 
+                Color c=image->at(j,i);
+                if(char_map.find(c)== char_map.end() ){
+                    char_map[c]=x++;
+                }
+            }
+        }
 
+        ofstream out(file);
+        out << "! XPM2/n";
+        out << image->width() << " " << image->height() << " "<< char_map.size() << "1" "/n";
+        for(auto element: char_map){
+            out << element.second << " c #" << rgb_to_hex(element.first);
+
+        }
+        for (int j = 0; j < image->width(); j++) {
+             for (int i = 0; i < image->height(); i++) {
+            
+        }
+       
     }
-}
