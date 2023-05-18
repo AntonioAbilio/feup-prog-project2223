@@ -24,14 +24,13 @@ namespace prog
     void open();
     void blank();
     void save();
-
     void invert();   // invert
-    void fill(int x, int y, int w, int h, rgb_value r, rgb_value g, rgb_value b);  // fill
+    void fill(int x, int y, int w, int h, rgb_value r, rgb_value g, rgb_value b); // fill
     void h_mirror();  // h_mirror
     void v_mirror();  // v_mirror
-    void crop(int x, int y, int w, int h);      // crop()
+    void crop(int x, int y, int w, int h); // crop()
     void rotate_left(); // rotate_left
-    void replace();      // replace()
+    void replace(); // replace()
     void to_gray_scale(); // to_gray_scale
     void rotate_right(); // rotate_right
     void add(Image* altimg, rgb_value r, rgb_value g, rgb_value b, int x, int y); // add
