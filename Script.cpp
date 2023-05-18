@@ -5,11 +5,7 @@
 #include "XPM2.hpp"
 #include <cmath>
 #include <algorithm>
-
 using namespace std;
-
-// TEST TEST PARTY PARTY
-
 
 namespace prog {
     // Use to read color values from a script file.
