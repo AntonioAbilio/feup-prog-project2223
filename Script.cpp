@@ -137,6 +137,12 @@ namespace prog {
                 image = loadFromXPM2(filename);
             }
 
+            if (command == "xpm2_save"){
+                string output_path;
+                input >> output_path;
+                saveToXPM2(output_path, image);
+            }
+
         }
     }
     void Script::open() {
