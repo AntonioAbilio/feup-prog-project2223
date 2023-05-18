@@ -1,22 +1,26 @@
 #include "Color.hpp"
 
 namespace prog {
+    // Default constructor.
     Color::Color() {
         red_ = 0;
         green_ = 0;
         blue_ = 0;
     }
+    // Copy constructor.
     Color::Color(const Color& other) {
         red_ = other.red();
         green_ = other.green();
         blue_ = other.blue();
     }
+    // Constructor.
     Color::Color(rgb_value red, rgb_value green, rgb_value blue) {
         red_ = red;
         green_ = green;
         blue_ = blue;
 
     }
+    // Methods to access the values without modifying.
     rgb_value Color::red() const {
         return red_;
     }
@@ -26,7 +30,7 @@ namespace prog {
     rgb_value Color::blue() const {
         return blue_;
     }
-
+    // Methods to be able to modify the individual pixeis.
     rgb_value& Color::red() {
         return red_;
     }
@@ -36,18 +40,4 @@ namespace prog {
     rgb_value& Color::blue() {
         return blue_;
     }
-
-/* 
-    // TODO: remove this DUMMY variable once you have appropriate fields for representing colors.
-    rgb_value DUMMY_rgb_value = 0; 
-
-    rgb_value& Color::red()  {
-        return DUMMY_rgb_value;
-    }
-    rgb_value& Color::green()  {
-      return DUMMY_rgb_value;
-    }
-    rgb_value& Color::blue()  {
-      return DUMMY_rgb_value;
-    } */
 }

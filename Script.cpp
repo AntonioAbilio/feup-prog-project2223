@@ -239,10 +239,14 @@ namespace prog {
 
     // to_gray_scale
     void Script::to_gray_scale(){
+
+        // Run through the pixels of the image.
         for (int y = 0; y < image->height(); y++){
             for (int x = 0; x < image->width(); x++){
-                Color& pixel = image->at(x, y);
-                rgb_value v = ((pixel.red() + pixel.green() + pixel.blue())/3);
+                Color& pixel = image->at(x, y); // Get the pixel.
+                // The average is so we can go from 0 up to 255 on every pixel. This mean we will go from black values to whiter values.
+                rgb_value v = ((pixel.red() + pixel.green() + pixel.blue())/3); // Get the average value.
+                // Replace the current rbg value with the average.
                 pixel.red() = v;
                 pixel.green() = v;
                 pixel.blue() = v;
@@ -253,14 +257,18 @@ namespace prog {
     //replace
     void Script::replace(){
         int r1, g1, b1, r2, g2, b2;
-        input >> r1>> g1>> b1>> r2>> g2>> b2;
+        input >> r1>> g1>> b1>> r2>> g2>> b2; // Get the values for this function.
+
+        // Run through the pixels of the image.
         for (int y = 0; y < image->height(); y++){
             for (int x = 0; x < image->width(); x++){
-                Color& pixel= image->at(x, y);
-                if(pixel.red()== r1 && pixel.green()==g1 && pixel.blue()==b1){
-                    pixel.red()= r2;
-                    pixel.green()=g2;
-                    pixel.blue()=b2;
+                Color& pixel= image->at(x, y); // Get the pixel.
+
+                // If we find the desired color we wish to replace, replace it.
+                if(pixel.red() == r1 && pixel.green() == g1 && pixel.blue() == b1){
+                    pixel.red() = r2;
+                    pixel.green() = g2;
+                    pixel.blue() = b2;
                 }
 
             }
@@ -272,60 +280,80 @@ namespace prog {
 
     // rotate_right
     void Script::rotate_right(){
-        Image* rot_img = new Image(image->height(), image->width());
+        Image* rot_img = new Image(image->height(), image->width());    // Create a new image with the height and width switched.
+
         for (int y = 0; y < image->height(); y++){
             for (int x = 0; x < image->width(); x++){
-                Color& orgC = image->at(x, y);
+                Color& orgC = image->at(x, y);  // Get the pixel of the original image.
+                // For every pixel we need to reposition it.
+                // The x now is the y and the new x is calculated by the total height - y - 1.
+                /* 
+                
+                 _ _ _ _           _ _ _
+                |0 0 * 0          |0 0 0
+                |0 0 0 0    -->   |0 0 0
+                |0 0 0 0          |0 0 *
+                                  |0 0 0
+                 */
                 Color& rotC = rot_img->at(image->height() - y - 1, x);
-                rotC = orgC;
+                rotC = orgC; // Copy the pixel from the original image to the new image
             }
         }
-        *image = *rot_img;
-        delete rot_img;
+        *image = *rot_img; // Replace the image with the one that was rotated.
+        delete rot_img;  // #freethedinamicmemory
     }
 
 
     //crop
     void Script::crop(int x, int y, int w, int h){
-        Image* cropped = new Image(w, h);
+        Image* cropped = new Image(w, h);   // Create a new image that we'll use to copy the current image so that we can work on it.
         for (int y_img = y; y_img < y + h; y_img++){    // For each line in cropped image (indexing of original image)
             for (int x_img = x; x_img < x + w; x_img++){    // For each column in cropped image (indexing of original image)
-                cropped->at(x_img - x, y_img - y) = image->at(x_img, y_img);
+                cropped->at(x_img - x, y_img - y) = image->at(x_img, y_img);    // Copy the pixel from the current image and place them in the new image
+                // x_img and y_img begin in the place we want to begin the crop.
+                // This means that we can use a single variable to run through the pixel_matrix of the cropped image.
             }
         }
-        *image = *cropped;
-        delete cropped;
+        *image = *cropped; // Replace the current image.
+        delete cropped; // #freethedinamicmemory
     }
 
 
     // add
     void Script::add(Image* altimg, rgb_value r, rgb_value g, rgb_value b, int x, int y){
-        int tx = x;
-        int ty = y;
+        // Note: Provided image is altimg, the image to be added to the current image.
+
+        int tx = x; // Save the original starting position of x
+        int ty = y; // Save the original starting position of y
+
+        // Run through the provided image.
         for(int ay = 0; ay < altimg->height(); ay++){
             for (int ax = 0; ax < altimg->width(); ax++){
-                Color& altC = altimg->at(ax, ay);
-                Color& C = image->at(tx, ty);
-                tx++;
+                Color& altC = altimg->at(ax, ay); // Copy the pixel of the provided image.
+                Color& C = image->at(tx, ty);   // Get the pixel from the current image.
+                tx++; // Increment the x position of the provided image
+
+                // Start the comparison between colors
+                // if red, green and blue are the same then we must not replace the color
                 if (altC.red() == r){
                     if (altC.green() == g){
                         if (altC.blue() == b){
-                            continue;
+                            continue; // Give control back to the second for loop.
                         } else {
-                            C = altC;
+                            C = altC; // Blue is different which means that the color is different.
                         }
                     } else {
-                        C = altC;
+                        C = altC; // Green is different which means that the color is different.
                     }
                 } else {
-                    C = altC;
+                    C = altC; // Red is different which means that the color is different.
                 }
             }
-            tx = x;
-            ty++;
+            tx = x; // Set tx back to the origin.
+            ty++; // Incremenet the y of the provided image.
 
         }
-    delete altimg;
+    delete altimg; // #freethedinamicmemory
     }
 
 
@@ -373,10 +401,4 @@ namespace prog {
     
     }
 
-// YES YES
-// NEW LLINE
-// OOOOO
-
-
 }
-// YE YE YE YUP

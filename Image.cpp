@@ -18,7 +18,7 @@ namespace prog
 
   Image::~Image()
   {
-      // Can be empty if no dynamically allocated memory is used explicitly - vanessa
+      // Can be empty if no dynamically allocated memory is used explicitly.
   }
 
   int Image::width() const
