@@ -262,10 +262,6 @@ namespace prog {
     }
 
 
-
-
-
-
     // rotate_right
     void Script::rotate_right(){
         Image* rot_img = new Image(image->height(), image->width());
@@ -285,6 +281,7 @@ namespace prog {
     void Script::crop(){
 
     }
+
 
     // add
     void Script::add(Image* altimg, rgb_value r, rgb_value g, rgb_value b, int x, int y){
