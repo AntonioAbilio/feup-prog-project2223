@@ -112,7 +112,9 @@ namespace prog {
 
             // Script commands for dimension-changing operations.
             if (command == "crop"){
-                // 8 - call to crop()               // MISSING - Joyce
+                int x, y, w, h;
+                input >> x >> y >> w >> h;
+                Script::crop(x, y, w, h);
                 continue;
             }
             if (command == "rotate_left"){          // rotate_left
@@ -134,13 +136,13 @@ namespace prog {
             if (command == "xpm2_open"){
                 string filename;
                 input >> filename;
-                image = loadFromXPM2(filename);
+                image = loadFromXPM2(filename);     // xpm2_open
             }
 
             if (command == "xpm2_save"){
                 string output_path;
                 input >> output_path;
-                saveToXPM2(output_path, image);
+                saveToXPM2(output_path, image);     // xpm2_save
             }
 
         }
@@ -284,8 +286,15 @@ namespace prog {
 
 
     //crop
-    void Script::crop(){
-
+    void Script::crop(int x, int y, int w, int h){
+        Image* cropped = new Image(w, h);
+        for (int y_img = y; y_img < y + h; y_img++){    // For each line in cropped image (indexing of original image)
+            for (int x_img = x; x_img < x + w; x_img++){    // For each column in cropped image (indexing of original image)
+                cropped->at(x_img - x, y_img - y) = image->at(x_img, y_img);
+            }
+        }
+        *image = *cropped;
+        delete cropped;
     }
 
 
