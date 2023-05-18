@@ -64,7 +64,7 @@ namespace prog {
                 continue;
             }
             if (command == "replace"){
-                // 3 - call to replace()            
+                // 3 - call to replace()            // MISSING - Joyce
                 Script:: replace();
                 continue;
 
@@ -82,7 +82,7 @@ namespace prog {
                 continue;
             }
             if (command == "v_mirror"){
-                // 6 - call to v_mirror()           
+                // 6 - call to v_mirror()           // MISSING - Joyce
                 Script::v_mirror();
                 continue;
             }
@@ -113,7 +113,6 @@ namespace prog {
             // Script commands for dimension-changing operations.
             if (command == "crop"){
                 // 8 - call to crop()               // MISSING - Joyce
-                Script::crop();
                 continue;
             }
             if (command == "rotate_left"){          // rotate_left
@@ -284,12 +283,8 @@ namespace prog {
 
     //crop
     void Script::crop(){
-    int x, y, w, h;
-    input >> x >> y >> w >> h;
-    
-    }
 
-      
+    }
 
     // add
     void Script::add(Image* altimg, rgb_value r, rgb_value g, rgb_value b, int x, int y){
