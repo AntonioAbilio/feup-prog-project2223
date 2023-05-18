@@ -22,6 +22,7 @@ namespace prog {
 }
 
     Image* loadFromXPM2(const std::string& file) {
+        
         ifstream in;
         in.open(file); // Open the file using the provided path.
 
@@ -146,7 +147,6 @@ namespace prog {
         }
         // Close the previously created file.
         out.close();
-        delete image;
         
     }
 }
