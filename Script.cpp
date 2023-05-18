@@ -53,23 +53,21 @@ namespace prog {
                 continue;
             }
 
-            // TODO
             // Script commands for simple image manipulations (image dimensions are not altered).
-            if (command == "invert") {              // invert
+            if (command == "invert") {                      // invert
                 Script::invert();                               
                 continue;
             }
-            if (command == "to_gray_scale") {
-                Script::to_gray_scale();      // to_gray_scale
+            if (command == "to_gray_scale") {               // to_gray_scale
+                Script::to_gray_scale();        
                 continue;
             }
-            if (command == "replace"){
-                // 3 - call to replace()            // MISSING - Joyce
+            if (command == "replace"){                      // replace
                 Script:: replace();
                 continue;
 
             }
-            if (command == "fill"){                 // fill  
+            if (command == "fill"){                         // fill  
                 int x, y, w, h;
                 input >> x >> y >> w >> h;
                 Color c;
@@ -77,12 +75,11 @@ namespace prog {
                 Script::fill(x, y, w, h, c.red(), c.green(), c.blue());     
                 continue;
             }
-            if (command == "h_mirror"){             // h_mirror
+            if (command == "h_mirror"){                     // h_mirror
                 Script::h_mirror();           
                 continue;
             }
-            if (command == "v_mirror"){
-                // 6 - call to v_mirror()           // MISSING - Joyce
+            if (command == "v_mirror"){                     // v_mirror
                 Script::v_mirror();
                 continue;
             }
@@ -104,6 +101,7 @@ namespace prog {
 
                 int wy;
                 input >> wy;
+
                 Image* altimage = loadFromPNG(file);
                 //cout << file << "\n" ;
                 Script::add(altimage, red, green, blue, wx, wy);                // add

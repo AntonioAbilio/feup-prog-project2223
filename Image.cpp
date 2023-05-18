@@ -2,7 +2,7 @@
 #include <vector>
 
 namespace prog
-{ // TODO: white default -> Defined in Color.hpp - Antonio.
+{ 
   Image::Image(int w, int h, const Color &fill){
     width_ = w;
     height_ = h;
@@ -11,11 +11,9 @@ namespace prog
     
     for (int y = 0; y < height_; y++){    // y - line (0 <= y < height_)
       for (int x = 0; x < width_; x++){   // x - column (0 <= x < width_)
-        pixel_matrix_[y][x] = fill;       // every pixel of pixel_matrix_ has color fill
+        pixel_matrix_[y][x] = fill;       // Every pixel of pixel_matrix_ has color fill.
       }
     }
-
-    // See if y matches the height or width (Lines / Columns)   - antonio.
   }
 
   Image::~Image()
@@ -33,18 +31,13 @@ namespace prog
     return height_;
   }
 
-  // TODO: remove this DUMMY_color variable once you have appropriate fields for representing image pixels.
-  //Color DUMMY_color;
-
-  Color& Image::at(int x, int y)      // Pixel at (x, y) can be altered
+  Color& Image::at(int x, int y)      // Pixel at (x, y) can be altered.
   {
-    // return DUMMY_color;
     return pixel_matrix_[y][x];
   }
 
-  const Color& Image::at(int x, int y) const
+  const Color& Image::at(int x, int y) const    
   {
-    //return DUMMY_color;
     return pixel_matrix_[y][x];
   }
 }

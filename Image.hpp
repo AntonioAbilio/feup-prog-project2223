@@ -10,10 +10,9 @@ namespace prog
   private:
     int height_;
     int width_;
-    // There may be something missing - Antonio. 
-    std::vector<std::vector<Color>> pixel_matrix_; // added - Vanessa
+    std::vector<std::vector<Color>> pixel_matrix_;
   public:
-    Image(int w, int h, const Color &fill = {255, 255, 255}); // = Color::White()); -> Not necessary - Vanessa
+    Image(int w, int h, const Color &fill = {255, 255, 255});
     ~Image();
     int width() const;
     int height() const;
