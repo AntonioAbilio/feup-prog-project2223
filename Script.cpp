@@ -165,7 +165,6 @@ namespace prog {
         string filename;
         input >> filename;
         saveToPNG(filename, image);
-        delete image;
     }
 
 
