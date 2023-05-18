@@ -24,17 +24,17 @@ namespace prog
     void open();
     void blank();
     void save();
-    void invert();   // invert
-    void fill(int x, int y, int w, int h, rgb_value r, rgb_value g, rgb_value b); // fill
-    void h_mirror();  // h_mirror
-    void v_mirror();  // v_mirror
-    void crop(int x, int y, int w, int h); // crop()
-    void rotate_left(); // rotate_left
-    void replace(); // replace()
-    void to_gray_scale(); // to_gray_scale
-    void rotate_right(); // rotate_right
-    void add(Image* altimg, rgb_value r, rgb_value g, rgb_value b, int x, int y); // add
-    void median_filter(int ws); // median_filter
+    void invert();   
+    void to_gray_scale(); 
+    void replace(int r1, int g1, int b1, int r2, int g2, int b2); 
+    void fill(int x, int y, int w, int h, rgb_value r, rgb_value g, rgb_value b); 
+    void h_mirror();  
+    void v_mirror();  
+    void add(Image* altimg, rgb_value r, rgb_value g, rgb_value b, int x, int y); 
+    void crop(int x, int y, int w, int h); 
+    void rotate_left(); 
+    void rotate_right(); 
+    void median_filter(int ws); 
   };
 }
 #endif

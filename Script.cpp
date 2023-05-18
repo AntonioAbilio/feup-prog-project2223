@@ -62,7 +62,9 @@ namespace prog {
                 continue;
             }
             if (command == "replace") {
-                Script:: replace();
+                int r1, g1, b1, r2, g2, b2;
+                input >> r1 >> g1 >> b1 >> r2 >> g2 >> b2;
+                Script::replace(r1, g1, b1, r2, g2, b2);
                 continue;
             }
             if (command == "fill") {                        
@@ -179,6 +181,37 @@ namespace prog {
         }
     }   
 
+    void Script::to_gray_scale(){
+        // Run through the pixels of the image.
+        for (int y = 0; y < image->height(); y++){
+            for (int x = 0; x < image->width(); x++){
+                Color& pixel = image->at(x, y); // Get the pixel.
+                // The average is so we can go from 0 up to 255 on every pixel. This mean we will go from black values to whiter values.
+                rgb_value v = ((pixel.red() + pixel.green() + pixel.blue())/3); // Get the average value.
+                // Replace the current rbg value with the average.
+                pixel.red() = v;
+                pixel.green() = v;
+                pixel.blue() = v;
+            }
+        }
+    }
+
+    void Script::replace(int r1, int g1, int b1, int r2, int g2, int b2){
+        // Run through the pixels of the image.
+        for (int y = 0; y < image->height(); y++){
+            for (int x = 0; x < image->width(); x++){
+                Color& pixel= image->at(x, y); // Get the pixel.
+
+                // If we find the desired color we wish to replace, replace it.
+                if(pixel.red() == r1 && pixel.green() == g1 && pixel.blue() == b1){
+                    pixel.red() = r2;
+                    pixel.green() = g2;
+                    pixel.blue() = b2;
+                }
+            }
+        }
+    }
+
     void Script::fill(int x, int y, int w, int h, rgb_value r, rgb_value g, rgb_value b){   
         // Replaces a defined part of image with color fill.
         for (int yi = y; yi < y + h; yi++){     // y - line of image.
@@ -215,97 +248,6 @@ namespace prog {
         }
     }
 
-    void Script::rotate_left(){    
-         // Rotate image left by 90 degrees.
-        Image* image_rot = new Image(image->height(), image->width());  // Create copy of image (with width and height switched).
-        for (int y = 0; y < image->height(); y++){     // y - line of image.
-            for (int x = 0; x < image->width(); x++){   // x - column of image.
-                Color& current_pixel = image->at(x, y);     // Get pixel of image at (x, y).
-                Color& rot_pixel = image_rot->at(y, image->width() - x - 1);    // Get pixel of rotated image at relative position.
-                rot_pixel = current_pixel;  // Assign color of pixel to rotated pixel.
-            }
-        }
-        *image = *image_rot;    // Rotated image is now assigned to the original image.
-        delete image_rot;   // Delete unused rotated image.
-    }
-
-    // to_gray_scale
-    void Script::to_gray_scale(){
-
-        // Run through the pixels of the image.
-        for (int y = 0; y < image->height(); y++){
-            for (int x = 0; x < image->width(); x++){
-                Color& pixel = image->at(x, y); // Get the pixel.
-                // The average is so we can go from 0 up to 255 on every pixel. This mean we will go from black values to whiter values.
-                rgb_value v = ((pixel.red() + pixel.green() + pixel.blue())/3); // Get the average value.
-                // Replace the current rbg value with the average.
-                pixel.red() = v;
-                pixel.green() = v;
-                pixel.blue() = v;
-            }
-        }
-    }
-
-    // replace
-    void Script::replace(){
-        int r1, g1, b1, r2, g2, b2;
-        input >> r1>> g1>> b1>> r2>> g2>> b2; // Get the values for this function.
-
-        // Run through the pixels of the image.
-        for (int y = 0; y < image->height(); y++){
-            for (int x = 0; x < image->width(); x++){
-                Color& pixel= image->at(x, y); // Get the pixel.
-
-                // If we find the desired color we wish to replace, replace it.
-                if(pixel.red() == r1 && pixel.green() == g1 && pixel.blue() == b1){
-                    pixel.red() = r2;
-                    pixel.green() = g2;
-                    pixel.blue() = b2;
-                }
-            }
-        }
-    }
-
-    // rotate_right
-    void Script::rotate_right(){
-        Image* rot_img = new Image(image->height(), image->width());    // Create a new image with the height and width switched.
-
-        for (int y = 0; y < image->height(); y++){
-            for (int x = 0; x < image->width(); x++){
-                Color& orgC = image->at(x, y);  // Get the pixel of the original image.
-                // For every pixel we need to reposition it.
-                // The x now is the y and the new x is calculated by the total height - y - 1.
-                /* 
-                
-                 _ _ _ _           _ _ _
-                |0 0 * 0          |0 0 0
-                |0 0 0 0    -->   |0 0 0
-                |0 0 0 0          |0 0 *
-                                  |0 0 0
-                 */
-                Color& rotC = rot_img->at(image->height() - y - 1, x);
-                rotC = orgC; // Copy the pixel from the original image to the new image
-            }
-        }
-        *image = *rot_img; // Replace the image with the one that was rotated.
-        delete rot_img;  // #freethedinamicmemory
-    }
-
-    // crop
-    void Script::crop(int x, int y, int w, int h){
-        Image* cropped = new Image(w, h);   // Create a new image that we'll use to copy the current image so that we can work on it.
-        for (int y_img = y; y_img < y + h; y_img++){    // For each line in cropped image (indexing of original image)
-            for (int x_img = x; x_img < x + w; x_img++){    // For each column in cropped image (indexing of original image)
-                cropped->at(x_img - x, y_img - y) = image->at(x_img, y_img);    // Copy the pixel from the current image and place them in the new image
-                // x_img and y_img begin in the place we want to begin the crop.
-                // This means that we can use a single variable to run through the pixel_matrix of the cropped image.
-            }
-        }
-        *image = *cropped; // Replace the current image.
-        delete cropped; // #freethedinamicmemory
-    }
-
-    // add
     void Script::add(Image* altimg, rgb_value r, rgb_value g, rgb_value b, int x, int y){
         // Note: Provided image is altimg, the image to be added to the current image.
 
@@ -339,18 +281,71 @@ namespace prog {
             ty++; // Incremenet the y of the provided image.
 
         }
-    delete altimg; // #freethedinamicmemory
+    delete altimg; // Free the dynamic memory.
     }
 
-    // median_filter
+    void Script::crop(int x, int y, int w, int h){
+        Image* cropped = new Image(w, h);   // Create a new image that we'll use to copy the current image so that we can work on it.
+        for (int y_img = y; y_img < y + h; y_img++){    // For each line in cropped image (indexing of original image)
+            for (int x_img = x; x_img < x + w; x_img++){    // For each column in cropped image (indexing of original image)
+                cropped->at(x_img - x, y_img - y) = image->at(x_img, y_img);    // Copy the pixel from the current image and place them in the new image
+                // x_img and y_img begin in the place we want to begin the crop.
+                // This means that we can use a single variable to run through the pixel_matrix of the cropped image.
+            }
+        }
+        *image = *cropped; // Replace the current image.
+        delete cropped; // Free the dynamic memory.
+    }
+
+    void Script::rotate_left(){    
+         // Rotate image left by 90 degrees.
+        Image* image_rot = new Image(image->height(), image->width());  // Create copy of image (with width and height switched).
+        for (int y = 0; y < image->height(); y++){     // y - line of image.
+            for (int x = 0; x < image->width(); x++){   // x - column of image.
+                Color& current_pixel = image->at(x, y);     // Get pixel of image at (x, y).
+                Color& rot_pixel = image_rot->at(y, image->width() - x - 1);    // Get pixel of rotated image at relative position.
+                rot_pixel = current_pixel;  // Assign color of pixel to rotated pixel.
+            }
+        }
+        *image = *image_rot;    // Rotated image is now assigned to the original image.
+        delete image_rot;   // Delete unused rotated image.
+    }
+
+    void Script::rotate_right(){
+        Image* rot_img = new Image(image->height(), image->width());    // Create a new image with the height and width switched.
+
+        for (int y = 0; y < image->height(); y++){
+            for (int x = 0; x < image->width(); x++){
+                Color& orgC = image->at(x, y);  // Get the pixel of the original image.
+                // For every pixel we need to reposition it.
+                // The x now is the y and the new x is calculated by the total height - y - 1.
+                /* 
+                
+                 _ _ _ _           _ _ _
+                |0 0 * 0          |0 0 0
+                |0 0 0 0    -->   |0 0 0
+                |0 0 0 0          |0 0 *
+                                  |0 0 0
+                 */
+                Color& rotC = rot_img->at(image->height() - y - 1, x);
+                rotC = orgC; // Copy the pixel from the original image to the new image
+            }
+        }
+        *image = *rot_img; // Replace the image with the one that was rotated.
+        delete rot_img;  // Free the dynamic memory.
+    }
+
+    // Median filter (functions below).
     bool compare(const rgb_value& a, const rgb_value& b){   // Auxiliary function.
+        // Compare function for sort.
         return (a < b);
     }
 
     rgb_value median(vector<rgb_value> window){     // Auxiliary function.
+        // Returns median of a vector.
         sort(window.begin(), window.end(), compare);    
         int size = window.size();                       
-        if (size % 2 == 0) return (window[size/2 - 1] + window[size/2]) / 2;  // Window has even size.
+        if (size % 2 == 0) return (window[size/2 - 1] + window[size/2]) / 2;  // Window has even size. -> Even means there is no "middle" value.
         else return window[size/2];                                           // Window has odd size.
     }
 
@@ -359,6 +354,7 @@ namespace prog {
         vector<rgb_value> window_g;    // Vector of green values of pixels in neighbourhood.
         vector<rgb_value> window_b;    // Vector of blue values of pixels in neighbourhood.
 
+        // Iterate through the values of the neighbourhood of the pixel and copies the values to the previously created vectors.
         for (int nx = max(0, x - ws / 2); nx <= min(img_copy.width() - 1, x + ws / 2); nx++){
             for (int ny = max(0, y - ws / 2); ny <= min(img_copy.height() - 1, y + ws / 2); ny++){
                 window_r.push_back(img_copy.at(nx, ny).red());
