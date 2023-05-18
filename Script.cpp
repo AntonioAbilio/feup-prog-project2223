@@ -366,7 +366,6 @@ namespace prog {
         rgb_value mb = median(window_b);
         return {mr, mg, mb};        // return median of each window separately
     }
-
     void Script::median_filter(int ws){
         if (ws % 2 == 0 || ws < 3) return;        // ws can't be even or less than 3
         Image img_copy = *image;                  // the original image will be altered, so we need a copy
@@ -378,8 +377,9 @@ namespace prog {
     
     }
 
-
-
+// YES YES
+// NEW LLINE
+// OOOOO
 
 
 }
