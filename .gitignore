@@ -8,3 +8,9 @@ test.dSYM/Contents/Resources/DWARF/test
 test.dSYM/Contents/Resources/DWARF/test
 test.dSYM/Contents/Resources/DWARF/test
 runscript.dSYM/Contents/Resources/DWARF/runscript
+*.xpm
+*.png
+*.png
+*.png
+output/v_mirror4.png
+*.png
