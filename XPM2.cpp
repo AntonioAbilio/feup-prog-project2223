@@ -14,7 +14,7 @@ namespace prog {
         {'8', 8}, {'9', 9}, {'a', 10}, {'b', 11}, {'c', 12}, {'d', 13}, {'e', 14}, {'f', 15}
     };
 
-    int red = hex_int[r_hex[0]] * 16 + hex_int[r_hex[1]];
+    int red = hex_int[r_hex[0]] * 16 + hex_int[r_hex[1]];   // Conversion from hex to int.
     int green = hex_int[g_hex[0]] * 16 + hex_int[g_hex[1]];
     int blue = hex_int[b_hex[0]] * 16 + hex_int[b_hex[1]];
     Color result((rgb_value)red, (rgb_value)green, (rgb_value)blue);
@@ -23,11 +23,10 @@ namespace prog {
 
     Image* loadFromXPM2(const std::string& file) {
         
-        ifstream in;
-        in.open(file); // Open the file using the provided path.
+        ifstream in (file); // Open the file using the provided path.
 
         string line; // Variable to store lines.
-        getline(in, line); // Can be used to check if the content belongs to a xpm2 file, ignored.
+        getline(in, line); // Could be used to check if the content belongs to a xpm2 file, ignored.
 
         getline(in, line); // Parameters (Size, Color Count, Chars per pixel).
         istringstream iss(line);
@@ -98,27 +97,23 @@ namespace prog {
         ooo << hex_int[div_blue] << hex_int[rem_blue];
 
         return ooo.str();
-
     }
 
     void saveToXPM2(const std::string& file, const Image* image) {
         ofstream out (file);
-        //out.open(file); // Create the output file
         out << "! XPM2\n"; // Header for XPM2 file.
-        
-
+    
         char first_color_char = '!'; // The first character is a ! because we have more characters to use if we start here.
 
-         map <string, char> color_char; // Create a map that stores the hexadecimal value for a color along with its character
+        map <string, char> color_char; // Create a map that stores the hexadecimal value for a color along with its character
         for (int y = 0; y < image->height(); y++){
             for (int x = 0; x < image->width(); x++){
-
                 // Condition to check if the color is already inside of the map.
                 if (color_char.count(Color_HEX(image->at(x,y))) == 0 ){ 
                     color_char[Color_HEX(image->at(x,y))] = first_color_char; 
                     // Place the color and its corresponding character inside the map object
                     // and use another character for a possible future color. 
-                    first_color_char += 1;
+                    first_color_char++;
                 }
             }
         }
@@ -145,8 +140,5 @@ namespace prog {
             }
             out << endl;    
         }
-        // Close the previously created file.
-        //out.close();
-        
     }
 }

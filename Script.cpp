@@ -53,20 +53,19 @@ namespace prog {
             }
 
             // Script commands for simple image manipulations (image dimensions are not altered).
-            if (command == "invert") {                      // invert
+            if (command == "invert") {
                 Script::invert();                               
                 continue;
             }
-            if (command == "to_gray_scale") {               // to_gray_scale
+            if (command == "to_gray_scale") {
                 Script::to_gray_scale();        
                 continue;
             }
-            if (command == "replace"){                      // replace
+            if (command == "replace") {
                 Script:: replace();
                 continue;
-
             }
-            if (command == "fill"){                         // fill  
+            if (command == "fill") {                        
                 int x, y, w, h;
                 input >> x >> y >> w >> h;
                 Color c;
@@ -74,15 +73,15 @@ namespace prog {
                 Script::fill(x, y, w, h, c.red(), c.green(), c.blue());     
                 continue;
             }
-            if (command == "h_mirror"){                     // h_mirror
+            if (command == "h_mirror") {
                 Script::h_mirror();           
                 continue;
             }
-            if (command == "v_mirror"){                     // v_mirror
+            if (command == "v_mirror") {                     
                 Script::v_mirror();
                 continue;
             }
-            if (command == "add"){
+            if (command == "add") {
                 string file;
                 input >> file;
 
@@ -102,51 +101,47 @@ namespace prog {
                 input >> wy;
 
                 Image* altimage = loadFromPNG(file);
-                //cout << file << "\n" ;
-                Script::add(altimage, red, green, blue, wx, wy);                // add
+                Script::add(altimage, red, green, blue, wx, wy);                
                 continue;
             }
 
             // Script commands for dimension-changing operations.
-            if (command == "crop"){
+            if (command == "crop") {
                 int x, y, w, h;
                 input >> x >> y >> w >> h;
                 Script::crop(x, y, w, h);
                 continue;
             }
-            if (command == "rotate_left"){          // rotate_left
+            if (command == "rotate_left") {          
                 Script::rotate_left();
                 continue;
             }
-            if (command == "rotate_right"){
-                Script::rotate_right();      // rotate_right
+            if (command == "rotate_right") {
+                Script::rotate_right();      
                 continue;
             }
-
-            if (command == "median_filter"){
+            if (command == "median_filter") {
                 int ws = 0;
                 input >> ws;
-                Script::median_filter(ws);     // median_filter
+                Script::median_filter(ws);     
                 continue;
             }
-
-            if (command == "xpm2_open"){
+            if (command == "xpm2_open") {
                 clear_image_if_any();
                 string filename;
                 input >> filename;
-                image = loadFromXPM2(filename);     // xpm2_open
+                image = loadFromXPM2(filename);     
                 continue;
             }
-
-            if (command == "xpm2_save"){
+            if (command == "xpm2_save") {
                 string output_path;
                 input >> output_path;
-                saveToXPM2(output_path, image);     // xpm2_save
+                saveToXPM2(output_path, image);
                 continue;
             }
-
         }
     }
+
     void Script::open() {
         // Replace current image (if any) with image read from PNG file.
         clear_image_if_any();
@@ -169,72 +164,69 @@ namespace prog {
         saveToPNG(filename, image);
     }
 
-
-    // invert
-    void Script::invert() {     // Invert colors of current image.
-        for (int y = 0; y < image->height(); y++){    // y - line (0 <= y < height_)
-            for (int x = 0; x < image->width(); x++){   // x - column (0 <= x < width_)
-                Color& current_pixel = image->at(x, y);
-                rgb_value& r = current_pixel.red();
+    void Script::invert() {     
+        // Inverts colors of current image.
+        for (int y = 0; y < image->height(); y++){    // y - line of image.
+            for (int x = 0; x < image->width(); x++){   // x - column of image.
+                Color& current_pixel = image->at(x, y); // Get pixel of image at (x, y).
+                rgb_value& r = current_pixel.red();     // Get a reference to each Color value. 
                 rgb_value& g = current_pixel.green();
                 rgb_value& b = current_pixel.blue();
-                r = 255 - r;
+                r = 255 - r;    // Invert every value of pixel directly (by reference).
                 g = 255 - g;
                 b = 255 - b;
             }
         }
     }   
 
-
-    // fill
-    void Script::fill(int x, int y, int w, int h, rgb_value r, rgb_value g, rgb_value b){
-        for (int yi = y; yi < y + h; yi++){
-            for (int xi = x; xi < x + w; xi++){
-                Color& current_pixel = image->at(xi, yi);
-                current_pixel = Color(r, g, b);
+    void Script::fill(int x, int y, int w, int h, rgb_value r, rgb_value g, rgb_value b){   
+        // Replaces a defined part of image with color fill.
+        for (int yi = y; yi < y + h; yi++){     // y - line of image.
+            for (int xi = x; xi < x + w; xi++){     // x - column of image.
+                Color& current_pixel = image->at(xi, yi);   // Get pixel of image at (x, y).
+                current_pixel = Color(r, g, b);     // Replace pixel with color fill.
             }
         }
     }
 
-    // h_mirror
-    void Script::h_mirror(){
-        for (int y = 0; y < image->height(); y++){
-            for (int x = 0; x < image->width()/2; x++){
-                Color& current_pixel = image->at(x, y);
-                Color& mirror_pixel = image->at(image->width() - x - 1, y);
-                Color temp = current_pixel;
-                current_pixel = mirror_pixel;
+    void Script::h_mirror(){    
+        // Mirrors image horizontally (vertical axis).
+        for (int y = 0; y < image->height(); y++){   // y - line of image.
+            for (int x = 0; x < image->width()/2; x++){     // x - column of image (until half width).
+                Color& current_pixel = image->at(x, y);     // Get pixel of image at (x, y).
+                Color& mirror_pixel = image->at(image->width() - x - 1, y); // Get mirrored pixel of image.
+                Color temp = current_pixel;     // Temporary copy of pixel at (x,y).
+                current_pixel = mirror_pixel;   // Swap pixel and mirrored pixel.
                 mirror_pixel = temp;
             }
         }
     }
 
-
-    // v_mirror
-    void Script::v_mirror(){
-        for (int y = 0; y < image->height()/2; y++){
-            for (int x = 0; x < image->width(); x++){
-                Color& current_pixel = image->at(x, y);
-                Color& mirror_pixel = image->at(x , image->height() - 1 - y);
-                Color temp = current_pixel;
-                current_pixel = mirror_pixel;
+    void Script::v_mirror(){    
+        // Mirrors image vertically (horizontal axis).
+        for (int y = 0; y < image->height()/2; y++){    // y - line of image (until half height).
+            for (int x = 0; x < image->width(); x++){   // x - column of image.
+                Color& current_pixel = image->at(x, y);     // Get pixel of image at (x, y).
+                Color& mirror_pixel = image->at(x , image->height() - 1 - y);   // Get mirrored pixel of image.
+                Color temp = current_pixel;     // Temporary copy of pixel at (x, y).
+                current_pixel = mirror_pixel;   // Swap pixel and mirrored pixel.
                 mirror_pixel = temp;
             }
         }
     }
 
-    // rotate_left
-    void Script::rotate_left(){
-        Image* image_rot = new Image(image->height(), image->width());
-        for (int y = 0; y < image->height(); y++){
-            for (int x = 0; x < image->width(); x++){
-                Color& current_pixel = image->at(x, y);
-                Color& rot_pixel = image_rot->at(y, image->width() - x - 1);
-                rot_pixel = current_pixel;
+    void Script::rotate_left(){    
+         // Rotate image left by 90 degrees.
+        Image* image_rot = new Image(image->height(), image->width());  // Create copy of image (with width and height switched).
+        for (int y = 0; y < image->height(); y++){     // y - line of image.
+            for (int x = 0; x < image->width(); x++){   // x - column of image.
+                Color& current_pixel = image->at(x, y);     // Get pixel of image at (x, y).
+                Color& rot_pixel = image_rot->at(y, image->width() - x - 1);    // Get pixel of rotated image at relative position.
+                rot_pixel = current_pixel;  // Assign color of pixel to rotated pixel.
             }
         }
-        *image = *image_rot;
-        delete image_rot;
+        *image = *image_rot;    // Rotated image is now assigned to the original image.
+        delete image_rot;   // Delete unused rotated image.
     }
 
     // to_gray_scale
@@ -254,7 +246,7 @@ namespace prog {
         }
     }
 
-    //replace
+    // replace
     void Script::replace(){
         int r1, g1, b1, r2, g2, b2;
         input >> r1>> g1>> b1>> r2>> g2>> b2; // Get the values for this function.
@@ -270,13 +262,9 @@ namespace prog {
                     pixel.green() = g2;
                     pixel.blue() = b2;
                 }
-
             }
         }
-        
-
     }
-
 
     // rotate_right
     void Script::rotate_right(){
@@ -303,8 +291,7 @@ namespace prog {
         delete rot_img;  // #freethedinamicmemory
     }
 
-
-    //crop
+    // crop
     void Script::crop(int x, int y, int w, int h){
         Image* cropped = new Image(w, h);   // Create a new image that we'll use to copy the current image so that we can work on it.
         for (int y_img = y; y_img < y + h; y_img++){    // For each line in cropped image (indexing of original image)
@@ -317,7 +304,6 @@ namespace prog {
         *image = *cropped; // Replace the current image.
         delete cropped; // #freethedinamicmemory
     }
-
 
     // add
     void Script::add(Image* altimg, rgb_value r, rgb_value g, rgb_value b, int x, int y){
@@ -356,24 +342,22 @@ namespace prog {
     delete altimg; // #freethedinamicmemory
     }
 
-
     // median_filter
-
-    bool compare(const rgb_value& a, const rgb_value& b){     // auxiliary function
+    bool compare(const rgb_value& a, const rgb_value& b){   // Auxiliary function.
         return (a < b);
-    }   
-
-    rgb_value median(vector<rgb_value> window){     // auxiliary function
-        sort(window.begin(), window.end(), compare);    
-        int size = window.size();                       
-        if (size % 2 == 0) return (window[size/2 - 1] + window[size/2]) / 2;  // window has even size
-        else return window[size/2];                                           // window has odd size
     }
 
-    Color median_calc(const int& x, const int& y, const int& ws, const Image& img_copy){         // auxiliary function
-        vector<rgb_value> window_r;    // vector of red values of pixels in neighbourhood
-        vector<rgb_value> window_g;    // vector of green values of pixels in neighbourhood
-        vector<rgb_value> window_b;    // vector of blue values of pixels in neighbourhood
+    rgb_value median(vector<rgb_value> window){     // Auxiliary function.
+        sort(window.begin(), window.end(), compare);    
+        int size = window.size();                       
+        if (size % 2 == 0) return (window[size/2 - 1] + window[size/2]) / 2;  // Window has even size.
+        else return window[size/2];                                           // Window has odd size.
+    }
+
+    Color median_calc(const int& x, const int& y, const int& ws, const Image& img_copy){    // Auxiliary function.
+        vector<rgb_value> window_r;    // Vector of red values of pixels in neighbourhood.
+        vector<rgb_value> window_g;    // Vector of green values of pixels in neighbourhood.
+        vector<rgb_value> window_b;    // Vector of blue values of pixels in neighbourhood.
 
         for (int nx = max(0, x - ws / 2); nx <= min(img_copy.width() - 1, x + ws / 2); nx++){
             for (int ny = max(0, y - ws / 2); ny <= min(img_copy.height() - 1, y + ws / 2); ny++){
@@ -383,22 +367,24 @@ namespace prog {
             }
         }
 
-        if (window_r.empty()) return img_copy.at(x, y);     // if the neighbourhood is empty, return the pixel itself
+        if (window_r.empty()) return img_copy.at(x, y);     // If the neighbourhood is empty, return the pixel itself.
 
         rgb_value mr = median(window_r);
         rgb_value mg = median(window_g);
         rgb_value mb = median(window_b);
-        return {mr, mg, mb};        // return median of each window separately
-    }
-    void Script::median_filter(int ws){
-        if (ws % 2 == 0 || ws < 3) return;        // ws can't be even or less than 3
-        Image img_copy = *image;                  // the original image will be altered, so we need a copy
-        for (int y = 0; y < image->height(); y++){
-            for (int x = 0; x < image->width(); x++){
-                image->at(x, y) = median_calc(x, y, ws, img_copy);      // calculates median value for each pixel and applies to image
-            }
-        }
-    
+        return {mr, mg, mb};        // Return median of each window separately.
     }
 
+    void Script::median_filter(int ws){
+        if (ws % 2 == 0 || ws < 3) return;        // ws can't be even or less than 3
+        Image img_copy = *image;                  // The original image will be altered, so we need a copy.
+        for (int y = 0; y < image->height(); y++){
+            for (int x = 0; x < image->width(); x++){
+                image->at(x, y) = median_calc(x, y, ws, img_copy);      // Calculates median value for each pixel and applies to image.
+            }
+        }
+    }
+
+
 }
+
