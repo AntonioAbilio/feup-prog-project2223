@@ -102,14 +102,14 @@ namespace prog {
     }
 
     void saveToXPM2(const std::string& file, const Image* image) {
-        ofstream out;
-        out.open(file); // Create the output file
+        ofstream out (file);
+        //out.open(file); // Create the output file
         out << "! XPM2\n"; // Header for XPM2 file.
         
 
         char first_color_char = '!'; // The first character is a ! because we have more characters to use if we start here.
 
-        map <string, char> color_char; // Create a map that stores the hexadecimal value for a color along with its character
+         map <string, char> color_char; // Create a map that stores the hexadecimal value for a color along with its character
         for (int y = 0; y < image->height(); y++){
             for (int x = 0; x < image->width(); x++){
 
@@ -146,7 +146,7 @@ namespace prog {
             out << endl;    
         }
         // Close the previously created file.
-        out.close();
+        //out.close();
         
     }
 }

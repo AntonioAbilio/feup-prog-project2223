@@ -132,15 +132,18 @@ namespace prog {
             }
 
             if (command == "xpm2_open"){
+                clear_image_if_any();
                 string filename;
                 input >> filename;
                 image = loadFromXPM2(filename);     // xpm2_open
+                continue;
             }
 
             if (command == "xpm2_save"){
                 string output_path;
                 input >> output_path;
                 saveToXPM2(output_path, image);     // xpm2_save
+                continue;
             }
 
         }
