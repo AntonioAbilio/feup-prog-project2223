@@ -146,6 +146,7 @@ namespace prog {
         }
         // Close the previously created file.
         out.close();
+        delete image;
         
     }
 }
