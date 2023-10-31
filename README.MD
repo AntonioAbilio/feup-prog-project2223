@@ -4,7 +4,7 @@
 See the UC page below as well as the project description:
 
 [***Course Page***](https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=484422)
-[ProjectAssignment(https://github.com/AntonioAbilio/feup-prog-project2223/blob/main/Project_assignment.pdf)
+[ProjectAssignment](https://github.com/AntonioAbilio/feup-prog-project2223/blob/main/Project_assignment.pdf)
 
 
 
